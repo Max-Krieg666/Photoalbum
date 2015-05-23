@@ -1,0 +1,70 @@
+%p#notice= notice
+
+%p
+  %b Логин:
+  = @owner.login
+%p
+  %b Аватар:
+%p
+  %b
+  -if !@owner.avatar.blank?
+    =image_tag @owner.avatar.url(:medium)
+  -else
+    .text-danger.li Аватар не загружен!
+%p
+  %b Место жительства:
+  -if @owner.residence
+    = @owner.residence
+  -else
+    .text-danger.li Не выбрано!
+%p
+  %b Пол:
+  = @owner.sex
+%p
+  %b День рождения:
+  -if @owner.birthday
+    = @owner.birthday
+  -else
+    .text-danger.li Не выбрано!
+%p
+  %b Эл. почта:
+  = @owner.mail
+
+%br
+-if @current_owner==@owner
+  = link_to edit_owner_path(@owner), class: 'btn btn-danger' do
+    =fa_icon "edit"
+    Редактировать
+-if @current_owner==@owner
+  = link_to albums_path, class: 'btn btn-info' do
+    =fa_icon "arrow-circle-right"
+    К моим альбомам
+-else
+  -if !@owner.albums.blank?
+    %br
+    .text-info.text-lg Фотоальбомы < #{@owner.login} >
+    %br
+      %table.table.table-bordered.table-hover.table-condensed
+        %thead
+          %tr
+            %th
+              .fa.fa-pencil.li
+                Название
+            %th
+              .fa.fa-calendar.li
+                Дата создания
+            %th
+        %tbody
+          - Album.where(owner_id: @owner.id).load.map{|x| x}.each do |album|
+            %tr
+              %td= album.name
+              %td= album.creation_date
+              %td
+                = link_to album, class: "btn btn-link" do
+                  =fa_icon "arrow-circle-right"
+  -else
+    %br
+    .li.text-danger У пользователя еще нет альбомов!
+= link_to owners_path, class: 'btn btn-info' do
+  =fa_icon "users"
+  Все пользователи

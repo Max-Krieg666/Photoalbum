@@ -1,0 +1,52 @@
+ru:
+  activerecord:
+    attributes:
+      owner:
+        login: Логин
+        password: Пароль
+        password_confirmation: Подтверждение пароля
+        mail: Адрес эл. почты
+        residence: Место проживания
+        sex: Пол
+        birthday: День рождения
+        role: Роль
+        avatar: Аватар
+      usergroup:
+        name: Название
+      user_usergroup:
+        begin_date: Начало
+        description: Описание
+      album:
+        name: Название
+        creation_date: Дата создания
+      photo:
+        title: Название
+        album_id: Альбом
+        image: Фотография
+        creation_date: Дата создания
+        description: Описание
+        num_of_assessments: Количество оценок
+        sum_of_assessments: Сумма оценок
+        average_rating: Средний рейтинг
+    models:
+      owner: Владелец
+      user_usergroup: Пользователь-группа
+      usergroup: Группа
+      album: Альбом
+      photo: Фотография
+  views:
+    pagination:
+      first: "&laquo; Первая"
+      last: "Последняя &raquo;"
+      previous: "&lsaquo; Предыдущая"
+      next: "Следующая &rsaquo;"
+      truncate: "&hellip;"
+  helpers:
+    page_entries_info:
+      one_page:
+        display_entries:
+          zero: "%{entry_name} не найдена"
+          one: "Отображение <b>1</b> %{entry_name}"
+          other: "Отображение <b>all %{count}</b> %{entry_name}"
+      more_pages:
+        display_entries: "Отображение %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> из <b>%{total}</b> в общем"

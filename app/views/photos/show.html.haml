@@ -1,0 +1,44 @@
+%p
+  %b Альбом:
+  = @photo.album.name
+%p
+  -if @photo.title!=""
+    %b Название:
+    = @photo.title
+  -else
+    %b.text-danger Без названия
+%p
+  %b
+  = image_tag(@photo.image.url)
+%p
+  %b Дата создания:
+  = @photo.creation_date
+%p
+  -if @photo.description!=""
+    %b Описание:
+    = @photo.description
+  -else
+    %b.text-danger Без описания
+%p
+  %b Количество оценок:
+  = @photo.num_of_assessments
+%p
+  %b Сумма оценок:
+  = @photo.sum_of_assessments
+%p
+  %b Средний рейтинг:
+  = @photo.average_rating
+%p
+  %b Является ли обложкой альбома?
+  -if @photo.position==0
+    .li.text-danger Нет
+  -else
+    .li.text-danger Да
+%br
+-if @current_owner==@photo.album.owner
+  =link_to edit_photo_path(@photo), class: 'btn btn-danger' do
+    =fa_icon "edit"
+    Редактировать
+=link_to album_path(@photo.album), class: 'btn btn-info' do
+  =fa_icon 'reply'
+  Назад

@@ -1,0 +1,11 @@
+= form_for @usergroup do |f|
+  = error_messages_for(@usergroup)
+
+  .field
+    = f.label :name
+    = f.text_field :name
+  .field
+    = f.label :owner
+    = f.text_field :owner
+  .actions
+    = f.submit 'Save'

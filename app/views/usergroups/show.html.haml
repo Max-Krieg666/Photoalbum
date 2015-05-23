@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @usergroup.name
+%p
+  %b Owner:
+  = @usergroup.owner
+
+= link_to 'Edit', edit_usergroup_path(@usergroup)
+\|
+= link_to 'Back', usergroups_path

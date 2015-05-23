@@ -1,0 +1,46 @@
+= form_for @photo do |f|
+  =f.hidden_field :album_id
+  = error_messages_for(@photo)
+  .row
+    .form-group
+      .alert.alert-warning.alert-dismissable
+        =f.button 'button',type: "button",class:"close", data_dismiss:"alert", aria_hidden:"true" do
+          &times;
+        -if @photo.image.blank?
+          Если Вы загружаете сразу несколько фотографий, это название будет одним для всех.
+          %br
+          *Поля < Название > и < Описание > не обязательны для ввода.
+        -else
+          *Поля < Название > и < Описание > не обязательны для ввода.
+  .row
+    .form-group
+      .fa.fa-pencil.li
+      = f.label :title
+      = f.text_field :title, class: 'form-control'
+  .row
+    .form-group
+      .fa.fa-picture-o
+      =f.label :image
+      =f.file_field :image, :multiple => true
+  .row
+    .form-group
+      .fa.fa-calendar.li
+      = f.label :creation_date
+      = f.date_select :creation_date, class: 'form-control'
+  .row
+    .form-group
+      .fa.fa-info.li
+      = f.label :description
+      = f.text_area :description, class: 'form-control'
+  .row
+    .form-group
+      .fa.fa-question.li
+      = f.label "Сделать обложкой альбома?"
+  .row
+    .form-group
+      = f.label " Да"
+      = f.radio_button :position, @photo.id, class: "radio"
+      = f.label " Нет"
+      = f.radio_button :position, 0, class: "radio"
+  .actions
+    = f.submit 'Сохранить', class: 'btn btn-primary'

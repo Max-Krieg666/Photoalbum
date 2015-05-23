@@ -1,0 +1,23 @@
+%h1 Listing usergroups
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Owner
+      %th
+      %th
+      %th
+
+  %tbody
+    - @usergroups.each do |usergroup|
+      %tr
+        %td= usergroup.name
+        %td= usergroup.owner
+        %td= link_to 'Show', usergroup
+        %td= link_to 'Edit', edit_usergroup_path(usergroup)
+        %td= link_to 'Destroy', usergroup, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Usergroup', new_usergroup_path

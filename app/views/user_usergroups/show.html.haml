@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Usergroup:
+  = @user_usergroup.usergroup
+%p
+  %b User:
+  = @user_usergroup.user
+%p
+  %b Begin date:
+  = @user_usergroup.begin_date
+%p
+  %b Description:
+  = @user_usergroup.description
+
+= link_to 'Edit', edit_user_usergroup_path(@user_usergroup)
+\|
+= link_to 'Back', user_usergroups_path

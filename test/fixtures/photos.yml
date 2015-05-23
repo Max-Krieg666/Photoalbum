@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  album_id: 
+  title: MyString
+  creation_date: 2015-04-15
+  description: MyString
+  num_of_assessments: 1
+  sum_of_assessments: 1
+  average_rating: 1.5
+
+two:
+  album_id: 
+  title: MyString
+  creation_date: 2015-04-15
+  description: MyString
+  num_of_assessments: 1
+  sum_of_assessments: 1
+  average_rating: 1.5

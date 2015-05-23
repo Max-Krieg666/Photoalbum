@@ -1,0 +1,25 @@
+= form_for @album do |f|
+  = error_messages_for(@album)
+
+  .row
+    .form-group
+      .fa.fa-pencil.li
+      = f.label :name
+      = f.text_field :name, class: "form-control"
+  .row
+    .form-group
+      .fa.fa-calendar.li
+      = f.label :creation_date
+      = f.date_select :creation_date, class: "form-control", start_year: 2015,
+        end_year: Time.now.year, prompt: { :day => 'День', :month => 'Месяц', :year => 'Год' }
+  -#.row
+  -#  - @album.photos.each do |photo|
+  -#    .col-md-2
+  -#      = link_to photo, :controller => :photos, :action => :edit, :id => photo.id do
+  -#        =image_tag(photo.image.url(:thumb))
+  -#      = link_to('X', :controller => :photos, :action => :destroy, :id => photo.id, :album_action => true)
+  -#= link_to 'Добавить новую фотографию', {:action => :new, :controller => :photos, :album_id => @album.id},
+  -#  :data => {confirm: 'Все изменения будут сброшены. Действительно продолжить?'}, class: 'btn btn-danger'
+  %br
+  .actions
+    =f.submit nil, class: "btn btn-primary"

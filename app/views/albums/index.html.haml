@@ -1,0 +1,39 @@
+-if @current_owner.blank?
+  -flash[:danger]='Необходима авторизация'
+-else
+  -if @current_owner.albums.size>0
+    %h1 Мои фотоальбомы
+    %table.table.table-bordered.table-hover
+      %thead
+        %tr
+          %th
+            .fa.fa-pencil.li
+              Название
+          %th
+            .fa.fa-calendar.li
+              Дата создания
+          %th
+          %th
+          %th
+      %tbody
+        - @albums.where(owner_id: @current_owner.id).each do |album|
+          %tr
+            %td= album.name
+            %td= album.creation_date
+            %td
+              = link_to album, class: "btn btn-link" do
+                =fa_icon "arrow-circle-right"
+            %td
+              = link_to edit_album_path(album), class: "btn btn-link" do
+                =fa_icon "edit"
+            %td
+              = link_to album, :method => :delete,
+                :data => { :confirm => 'Вы уверены?' }, class: "btn btn-link" do
+                =fa_icon "remove"
+  -else
+    %h1.text-danger Фотоальбомы ещё не созданы!
+  %br
+  = link_to new_album_path, class: "btn btn-primary" do
+    =fa_icon "plus"
+    Новый альбом
+  %br
