@@ -36,8 +36,8 @@ gem 'bcrypt'
 # Use Unicorn as the app server
 # gem 'unicorn'
 
-# Реализация дерева комментариев
-gem 'closure_tree'#~>http://rails-junior.com/posts/rails-comments-tree
+# Система оценивания
+gem 'acts-as-rated'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

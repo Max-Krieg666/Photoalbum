@@ -1,15 +1,15 @@
 %p
   %b Альбом:
-  = @photo.album.name
+  = link_to "#{@photo.album.name}", @photo.album
+%p
+  %b
+  = image_tag(@photo.image.url)
 %p
   -if @photo.title!=""
     %b Название:
     = @photo.title
   -else
     %b.text-danger Без названия
-%p
-  %b
-  = image_tag(@photo.image.url)
 %p
   %b Дата создания:
   = @photo.creation_date
@@ -20,11 +20,11 @@
   -else
     %b.text-danger Без описания
 %p
-  %b Количество оценок:
-  = @photo.num_of_assessments
-%p
   %b Сумма оценок:
   = @photo.sum_of_assessments
+%p
+  %b Количество оценок:
+  = @photo.num_of_assessments
 %p
   %b Средний рейтинг:
   = @photo.average_rating

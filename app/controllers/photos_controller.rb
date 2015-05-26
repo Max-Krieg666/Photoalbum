@@ -27,6 +27,8 @@ class PhotosController < ApplicationController
   # POST /photos.json
   def create
     @photo = Photo.new(photo_params)
+    @first = 0
+    @album = Album.find(@photo.album_id)
     if params[:photo][:image].blank?
       flash[:danger]="При сохранении произошла ошибка! Необходимо загрузить хотя бы одну фотографию!"
       render :new
@@ -39,14 +41,17 @@ class PhotosController < ApplicationController
         @photo.image=upload
         if @photo.album.photos.size==0
           @photo.position=@photo.id
-          @album.cover=@photo.id
-          @album.save!
+          @first=@photo
         else
           @photo.position=0
         end
         if !@photo.save
           render :new
         end
+      end
+      if @first!=0
+        @album.cover=@first.id
+        @album.save!
       end
       redirect_to @photo.album, notice: 'Фотографии загружены.'
     end
