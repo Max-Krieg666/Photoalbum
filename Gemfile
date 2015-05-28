@@ -37,7 +37,7 @@ gem 'bcrypt'
 # gem 'unicorn'
 
 # Система оценивания
-gem 'acts-as-rated'
+# gem 'acts-as-rated'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
