@@ -20,10 +20,16 @@
   -else
     %b.text-danger Без описания
 %p
-  %b Оцените фото:
-  = form_for @photo do |f|
-    = f.select :position, [1,2,3,4,5], class: "form-control"
-    = f.submit 'Оценить'
+  %b
+  -x=TableOfAssesment.where(owner_id:@current_owner.id,photo_id:@photo.id).to_a
+  -if x.size == 0
+    = form_for @photo do |f|
+      = f.label "Оцените фото:"
+      = f.select :rate, [1,2,3,4,5], class: "form-control"
+      .actions
+        = f.submit 'Оценить', class: 'btn btn-info'
+  -else
+    .text-info Вы уже голосовали и поставили #{x[0].rate}
 %p
   %b Сумма оценок:
   = @photo.sum_of_assessments
@@ -39,6 +45,40 @@
     .li.text-danger Нет
   -else
     .li.text-danger Да
+%br
+-comments=Comment.where(photo_id: @photo.id).order(:created_at).to_a
+-comments.each do |comment|
+  .row
+    .list-group
+      .col-md-5
+        .list-group-item.active
+          .fa.fa-user.li
+            = Owner.where(id: comment.owner_id).to_a[0].login
+            -if comment.owner_id==@current_owner.id
+              .btn-group
+                =link_to edit_comment_path(comment), class: 'btn btn-info' do
+                  =fa_icon 'edit'
+                =link_to edit_comment_path(comment), class: 'btn btn-danger' do
+                  =fa_icon 'remove'
+            -else
+              - a=Comment.new
+              = form_for a do |f|
+                = f.hidden_field :photo_id, value: @photo.id
+                = f.hidden_field :reply, value: comment.id
+                .actions
+                  = f.submit 'Ответить', class: 'btn btn-info'
+        .list-group-item
+          = comment.content
+        %br
+- a=Comment.new
+%br
+= form_for a do |f|
+  = f.hidden_field :photo_id, value: @photo.id
+  = error_messages_for(a)
+  = f.text_area :content, class: "form-control"
+  %br
+  .actions
+    = f.submit 'Комментировать', class: 'btn btn-warning'
 %br
 -if @current_owner==@photo.album.owner
   =link_to edit_photo_path(@photo), class: 'btn btn-danger' do

@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: [:show, :edit, :update, :destroy]
+  before_action :set_photo, only: :new
 
   # GET /comments
   # GET /comments.json
@@ -14,7 +15,9 @@ class CommentsController < ApplicationController
 
   # GET /comments/new
   def new
-    @comment = Comment.new
+    @comment = @photo.comments.build
+    @comment.photo=@photo
+    @comment.photo_id=@photo.id
   end
 
   # GET /comments/1/edit
@@ -25,10 +28,10 @@ class CommentsController < ApplicationController
   # POST /comments.json
   def create
     @comment = Comment.new(comment_params)
-
+    @comment.owner_id=@current_owner.id
     respond_to do |format|
       if @comment.save
-        format.html { redirect_to @comment, notice: 'Комментарий успешно добавлен.' }
+        format.html { redirect_to @comment.photo, notice: 'Комментарий успешно добавлен.' }
         format.json { render :show, status: :created, location: @comment }
       else
         format.html { render :new }
@@ -42,7 +45,7 @@ class CommentsController < ApplicationController
   def update
     respond_to do |format|
       if @comment.update(comment_params)
-        format.html { redirect_to @comment, notice: 'Комментарий успешно изменён.' }
+        format.html { redirect_to @comment.photo, notice: 'Комментарий успешно изменён.' }
         format.json { render :show, status: :ok, location: @comment }
       else
         format.html { render :edit }
@@ -56,7 +59,7 @@ class CommentsController < ApplicationController
   def destroy
     @comment.destroy
     respond_to do |format|
-      format.html { redirect_to comments_url, notice: 'Комментарий успешно удалён.' }
+      format.html { redirect_to @comment.photo, notice: 'Комментарий успешно удалён.' }
       format.json { head :no_content }
     end
   end
@@ -66,9 +69,12 @@ class CommentsController < ApplicationController
     def set_comment
       @comment = Comment.find(params[:id])
     end
+    def set_photo
+      @photo = Photo.find(params[:album_id])
+    end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def comment_params
-      params.require(:comment).permit(:photo_id, :content)
+      params.require(:comment).permit(:photo_id, :content, :reply, :owner_id)
     end
 end

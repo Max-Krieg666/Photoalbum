@@ -19,7 +19,7 @@
         =image_tag photo.image.url(:thumb), alt: photo.title
       =link_to '->', {:controller => :photos, :action => :show, :id => photo.id}, class: 'btn btn-primary'
       -if @album.owner==@current_owner
-        =link_to 'X', @album, class: 'btn btn-primary',
+        =link_to 'X', photo_path(photo), class: 'btn btn-primary',
           data:{confirm: "Действительно удалить?", :controller => :photos, method: :delete}
 -else
   .li.text-danger Фотоальбом пуст!

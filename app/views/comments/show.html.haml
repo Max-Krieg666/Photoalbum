@@ -1,12 +1,7 @@
-%p#notice= notice
-
 %p
-  %b Photo:
-  = @comment.photo
-%p
-  %b Content:
+  %b
   = @comment.content
 
-= link_to 'Edit', edit_comment_path(@comment)
+= link_to 'Редактировать', edit_comment_path(@comment)
 \|
-= link_to 'Back', comments_path
+= link_to 'Назад', comments_path

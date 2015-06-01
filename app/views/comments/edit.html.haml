@@ -1,7 +1,8 @@
-%h1 Editing comment
+%h1 Редактирование комментария
 
 = render 'form'
 
-= link_to 'Show', @comment
-\|
-= link_to 'Back', comments_path
+%br
+=link_to @comment.photo, class: 'btn btn-info' do
+  =fa_icon 'reply'
+  Назад

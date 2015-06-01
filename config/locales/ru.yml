@@ -28,12 +28,18 @@ ru:
         num_of_assessments: Количество оценок
         sum_of_assessments: Сумма оценок
         average_rating: Средний рейтинг
+      comment:
+        owner_id: Автор
+        photo_id: Фотография
+        content: Комментарий
+        reply: Ответить
     models:
       owner: Владелец
       user_usergroup: Пользователь-группа
       usergroup: Группа
       album: Альбом
       photo: Фотография
+      comment: Комментарий
   views:
     pagination:
       first: "&laquo; Первая"

@@ -38,6 +38,7 @@ class PhotosController < ApplicationController
         @photo.num_of_assessments=0
         @photo.sum_of_assessments=0
         @photo.average_rating=0.0
+        @photo.rate=0
         @photo.image=upload
         if @photo.album.photos.size==0
           @photo.position=@photo.id
@@ -66,14 +67,15 @@ class PhotosController < ApplicationController
   # PATCH/PUT /photos/1
   # PATCH/PUT /photos/1.json
   def update
+
     respond_to do |format|
       if @photo.update(photo_params)
         if @photo.rate!=0
           @photo.sum_of_assessments+=@photo.rate
           @photo.num_of_assessments+=1
           @photo.average_rating=@photo.sum_of_assessments.to_f/@photo.num_of_assessments.to_f
-          @photo.rate=0
           TableOfAssesment.create(owner_id: @current_owner.id, rate: @photo.rate, photo_id:@photo.id)
+          @photo.rate=0
           @photo.save
         end
         if @photo.position!=0
@@ -117,6 +119,6 @@ class PhotosController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def photo_params
-      params.require(:photo).permit(:album_id, :title, :creation_date, :description, :image, :position)
+      params.require(:photo).permit(:album_id, :title, :creation_date, :description, :image, :position, :rate)
     end
 end
