@@ -1,5 +1,6 @@
 class OwnersController < ApplicationController
   before_action :set_owner, only: [:show, :edit, :update, :destroy]
+  before_action :admin_permission, except: [:new, :create, :index, :show]
 
   # GET /owners
   # GET /owners.json

@@ -16,6 +16,6 @@ class SessionsController < ApplicationController
 
   def destroy
     session.delete(:owner_id)
-    redirect_to root_path, notice: 'Выход выполнен'
+    redirect_to login_path, notice: 'Выход выполнен'
   end
 end

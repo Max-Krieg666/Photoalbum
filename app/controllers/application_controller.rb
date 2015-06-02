@@ -22,6 +22,12 @@ class ApplicationController < ActionController::Base
         redirect_to login_path
       end
     end
+    def check_authentication
+      unless @current_owner
+        flash[:danger]="Доступ без авторизации запрещен"
+        redirect_to login_path
+      end
+    end
 
     def manager_permission
       unless @current_owner.try(:manager?)

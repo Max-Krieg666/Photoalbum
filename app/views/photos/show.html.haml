@@ -38,7 +38,7 @@
   = @photo.num_of_assessments
 %p
   %b Средний рейтинг:
-  = @photo.average_rating
+  = @photo.average_rating.round(2)
 %p
   %b Является ли обложкой альбома?
   -if @photo.position==0

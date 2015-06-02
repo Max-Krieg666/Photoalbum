@@ -11,7 +11,7 @@ class Owner < ActiveRecord::Base
 
   ROLES = %w(Пользователь Модератор Администратор)
   has_secure_password
-  before_validation :set_default_role
+  before_validation :set_default_role, :check_bday
   validates :password, length: {minimum: 6}, if: "password.present?"
   validates :role, presence: true, inclusion: {in: 0...ROLES.size}
   validates :login, presence: true, length: {minimum: 3 ,maximum: 24},
@@ -33,5 +33,8 @@ class Owner < ActiveRecord::Base
   def set_default_role
     self.role||=0
   end
-
+  
+  def check_bday
+    self.errors[:birthday]<<" не существует!" if self.birthday > Time.now
+  end
 end

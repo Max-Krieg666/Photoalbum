@@ -7,8 +7,8 @@
     #menu.collapse.navbar-collapse
       %ul.nav.navbar-nav
         %li= link_to "Мои фотоальбомы", albums_path
-        -#if @current_owner.try(:administrator?)
-        %li=link_to "Все пользователи", owners_path
+        -if @current_owner
+          %li=link_to "Все пользователи", owners_path
       %ul.nav.navbar-nav.navbar-right
         -if @current_owner.blank?
           %li=link_to "Зарегистрироваться", new_owner_path

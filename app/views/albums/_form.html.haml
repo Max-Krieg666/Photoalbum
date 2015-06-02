@@ -12,6 +12,6 @@
       = f.label :creation_date
       = f.date_select :creation_date, class: "form-control", start_year: 2015,
         end_year: Time.now.year, prompt: { :day => 'День', :month => 'Месяц', :year => 'Год' }
-%br
+  %br
   .actions
     =f.submit nil, class: "btn btn-primary"
