@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
     @owner=Owner.where(login: params[:login]).first
     if @owner && @owner.authenticate(params[:password])
       session[:owner_id]=@owner.id
-      redirect_to root_path, notice: 'Авторизация прошла успешно'
+      redirect_to @owner, notice: 'Авторизация прошла успешно'
     else
       flash[:danger]='Неверное имя пользователя или пароль'
       render :new

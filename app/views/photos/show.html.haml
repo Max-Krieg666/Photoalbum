@@ -47,26 +47,49 @@
     .li.text-danger Да
 %br
 -comments=Comment.where(photo_id: @photo.id).order(:created_at).to_a
+-comment_id=0
 -comments.each do |comment|
+  -comment_id+=1
   .row
     .list-group
       .col-md-5
         .list-group-item.active
+          - own=Owner.where(id: comment.owner_id).to_a[0]
+          -if comment.reply && comment.reply!=0
+            - reply=Comment.where(id: comment.reply, photo_id: @photo.id).to_a[0]
+            - reply_owner=Owner.where(id: reply.owner_id).to_a[0]
+            .text-danger To -> \ #{reply_owner.login} : post#{reply.id} \
+          = "##{comment_id}"
           .fa.fa-user.li
-            = Owner.where(id: comment.owner_id).to_a[0].login
-            -if comment.owner_id==@current_owner.id
-              .btn-group
-                =link_to edit_comment_path(comment), class: 'btn btn-info' do
-                  =fa_icon 'edit'
-                =link_to edit_comment_path(comment), class: 'btn btn-danger' do
-                  =fa_icon 'remove'
-            -else
-              - a=Comment.new
-              = form_for a do |f|
-                = f.hidden_field :photo_id, value: @photo.id
-                = f.hidden_field :reply, value: comment.id
-                .actions
-                  = f.submit 'Ответить', class: 'btn btn-info'
+            = own.login
+          -if comment.owner_id==@current_owner.id
+            .btn-group
+              =link_to edit_comment_path(comment), class: 'btn btn-info' do
+                =fa_icon 'edit'
+              =link_to comment_path(comment),data:{confirm: "Действительно удалить?", :controller => :comments, method: :delete}, class: 'btn btn-danger' do
+                =fa_icon 'remove'
+          -else
+            %div{id: "new_comment_modal", class: "modal fade modal-backdrop-static in", style: "background-color: #888; border: none; opacity: 0.8;"}
+              %div{class: "modal-header"}
+                %button{class: "close", "data-dismiss"=>"modal"}
+                  .fa.fa-remove
+                %h3 Новый комментарий
+              %div{class: "modal-body"}
+                - a=Comment.new
+                = form_for a do |f|
+                  = f.hidden_field :photo_id, value: @photo.id
+                  = f.hidden_field :reply, value: comment.id
+                  = f.text_area :content, class: "form-control", size: "30x10"
+                  %br
+                  .actions
+                    = f.submit 'Отправить', class: 'btn btn-info'
+              %div{class: "modal-footer"}
+                %a{class: "btn btn-danger", "data-dismiss"=>"modal", href: {:controller => :photos, :action => :show, :id => @photo.id}}
+                  Закрыть
+            %a{class: 'btn btn-info', :href => '#new_comment_modal', "data-toggle" => 'modal'}
+              Ответить
+          .fa.fa-heart.li.pull-right
+            = TableOfAssesment.where(photo_id: @photo.id, owner_id: own.id).to_a[0].rate
         .list-group-item
           = comment.content
         %br

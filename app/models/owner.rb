@@ -35,6 +35,8 @@ class Owner < ActiveRecord::Base
   end
   
   def check_bday
-    self.errors[:birthday]<<" не существует!" if self.birthday > Time.now
+    if !self.birthday.blank?
+      self.errors[:birthday]<<" не существует!" if self.birthday > Time.now
+    end
   end
 end

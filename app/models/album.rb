@@ -3,4 +3,9 @@ class Album < ActiveRecord::Base
   has_many :photos
 
   validates :name, presence: true, uniqueness: true, length: {maximum: 120}
+  before_validation :check_date
+
+  def check_date
+    self.errors[:creation_date]<<" не существует!" if self.creation_date > Time.now
+  end
 end
