@@ -1,7 +1,12 @@
-%h1 Editing usergroup
+%h1 Редактирование группы
 
 = render 'form'
 
-= link_to 'Show', @usergroup
-\|
-= link_to 'Back', usergroups_path
+%br
+.btn-block
+  =link_to @usergroup, class: 'btn btn-info' do
+    =fa_icon 'arrow-right'
+    Показать
+  =link_to usergroups_path, class: 'btn btn-primary' do
+    =fa_icon 'reply'
+    Назад

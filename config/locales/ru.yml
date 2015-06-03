@@ -16,6 +16,8 @@ ru:
       user_usergroup:
         begin_date: Начало
         description: Описание
+        user_id: Пользователь
+        usergroup_id: Группа
       album:
         name: Название
         creation_date: Дата создания

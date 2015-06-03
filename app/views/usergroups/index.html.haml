@@ -1,23 +1,39 @@
-%h1 Listing usergroups
-
-%table
-  %thead
-    %tr
-      %th Name
-      %th Owner
-      %th
-      %th
-      %th
-
-  %tbody
-    - @usergroups.each do |usergroup|
-      %tr
-        %td= usergroup.name
-        %td= usergroup.owner
-        %td= link_to 'Show', usergroup
-        %td= link_to 'Edit', edit_usergroup_path(usergroup)
-        %td= link_to 'Destroy', usergroup, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
-
-= link_to 'New Usergroup', new_usergroup_path
+-if @current_owner.blank?
+  -flash[:danger]='Необходима авторизация'
+-else
+  -if @current_owner.usergroups.size>0
+    %h1 Мои группы
+    .row
+      - @usergroups.where(owner_id: @current_owner.id).each do |usgr|
+        .list-group
+          .col-md-5
+            .list-group-item.active
+              .fa.fa-users.li
+              =usgr.name
+              .btn-group
+                =link_to usgr, class: 'btn btn-info btn-sm' do
+                  =fa_icon 'arrow-right'
+                =link_to edit_usergroup_path(usgr), class: 'btn btn-warning btn-sm' do
+                  =fa_icon 'edit'
+                =link_to usgr, :method => :delete, :data => { :confirm => 'Вы уверены?' }, class: 'btn btn-danger btn-sm' do
+                  =fa_icon 'remove'
+            -if UserUsergroup.all.to_a.size>0
+              -if usgr.user_usergroups && usgr.user_usergroups.size>0
+                - UserUsergroup.where(usergroup_id: usgr.id).each do |usr|
+                  .list-group-item
+                    =Owner.find(usr.user_id).login
+                .list-group-item
+                  .fa.fa-user-plus.li
+                    =link_to 'Добавить пользователя',{:action => :new, :controller => :user_usergroups,:usergroup_id => usgr.id}, class: 'btn btn-default btn-xs'
+              -else
+                .list-group-item
+                  .text-danger Группа пуста
+            -else
+              .list-group-item
+                .text-danger Группа пуста
+  -else
+    %h1.text-danger Группы ещё не созданы!
+  %br
+  = link_to new_usergroup_path, class: "btn btn-primary" do
+    =fa_icon "plus"
+    Новая группа

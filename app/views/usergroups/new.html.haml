@@ -1,5 +1,7 @@
-%h1 New usergroup
+%h1 Новая группа
 
 = render 'form'
-
-= link_to 'Back', usergroups_path
+%br
+= link_to usergroups_path, class: "btn btn-info" do
+  =fa_icon "reply"
+  Назад

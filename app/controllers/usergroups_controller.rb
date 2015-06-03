@@ -25,10 +25,11 @@ class UsergroupsController < ApplicationController
   # POST /usergroups.json
   def create
     @usergroup = Usergroup.new(usergroup_params)
+    @usergroup.owner_id = @current_owner.id
 
     respond_to do |format|
       if @usergroup.save
-        format.html { redirect_to @usergroup, notice: 'Usergroup was successfully created.' }
+        format.html { redirect_to @usergroup, notice: 'Группа успешно создана.' }
         format.json { render :show, status: :created, location: @usergroup }
       else
         format.html { render :new }
@@ -42,7 +43,7 @@ class UsergroupsController < ApplicationController
   def update
     respond_to do |format|
       if @usergroup.update(usergroup_params)
-        format.html { redirect_to @usergroup, notice: 'Usergroup was successfully updated.' }
+        format.html { redirect_to @usergroup, notice: 'Группа успешно изменена.' }
         format.json { render :show, status: :ok, location: @usergroup }
       else
         format.html { render :edit }
@@ -56,7 +57,7 @@ class UsergroupsController < ApplicationController
   def destroy
     @usergroup.destroy
     respond_to do |format|
-      format.html { redirect_to usergroups_url, notice: 'Usergroup was successfully destroyed.' }
+      format.html { redirect_to usergroups_url, notice: 'Группа успешно удалена.' }
       format.json { head :no_content }
     end
   end

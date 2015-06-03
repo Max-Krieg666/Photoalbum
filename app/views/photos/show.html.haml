@@ -47,9 +47,7 @@
     .li.text-danger Да
 %br
 -comments=Comment.where(photo_id: @photo.id).order(:created_at).to_a
--comment_id=0
 -comments.each do |comment|
-  -comment_id+=1
   .row
     .list-group
       .col-md-5
@@ -59,7 +57,7 @@
             - reply=Comment.where(id: comment.reply, photo_id: @photo.id).to_a[0]
             - reply_owner=Owner.where(id: reply.owner_id).to_a[0]
             .text-danger To -> \ #{reply_owner.login} : post#{reply.id} \
-          = "##{comment_id}"
+          = "##{comment.id}"
           .fa.fa-user.li
             = own.login
           -if comment.owner_id==@current_owner.id
@@ -69,7 +67,13 @@
               =link_to comment_path(comment),data:{confirm: "Действительно удалить?", :controller => :comments, method: :delete}, class: 'btn btn-danger' do
                 =fa_icon 'remove'
           -else
-            %div{id: "new_comment_modal", class: "modal fade modal-backdrop-static in", style: "background-color: #888; border: none; opacity: 0.8;"}
+            -if @current_owner.role>1
+              .btn-group
+                =link_to edit_comment_path(comment), class: 'btn btn-info' do
+                  =fa_icon 'edit'
+                =link_to comment_path(comment), data:{confirm: "Действительно удалить?", :controller => :comments, method: :delete}, class: 'btn btn-danger' do
+                  =fa_icon 'remove'
+            %div{id: "new_comment_modal", class: "modal fade in modal-backdrop-static", style: "background-color: #888; border: none; opacity: 0.8;"}
               %div{class: "modal-header"}
                 %button{class: "close", "data-dismiss"=>"modal"}
                   .fa.fa-remove
@@ -84,7 +88,7 @@
                   .actions
                     = f.submit 'Отправить', class: 'btn btn-info'
               %div{class: "modal-footer"}
-                %a{class: "btn btn-danger", "data-dismiss"=>"modal", href: {:controller => :photos, :action => :show, :id => @photo.id}}
+                %button{class: "btn btn-danger", "data-dismiss"=>"modal", href: {:controller => :photos, :action => :show, :id => @photo.id}}
                   Закрыть
             %a{class: 'btn btn-info', :href => '#new_comment_modal', "data-toggle" => 'modal'}
               Ответить

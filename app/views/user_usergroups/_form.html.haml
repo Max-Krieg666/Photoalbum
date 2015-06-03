@@ -1,17 +1,17 @@
 = form_for @user_usergroup do |f|
+  = f.hidden_field :usergroup_id
   = error_messages_for(@user_usergroup)
-
-  .field
-    = f.label :usergroup
-    = f.text_field :usergroup
-  .field
-    = f.label :user
-    = f.text_field :user
-  .field
-    = f.label :begin_date
-    = f.date_select :begin_date
-  .field
-    = f.label :description
-    = f.text_field :description
+  .row
+    .form-group
+      = label_tag('user_usergroup[user_id]', UserUsergroup.human_attribute_name(:user_id))
+      = select_user('user_usergroup[user_id]', @user_usergroup.user_id)
+  .row
+    .form-group
+      = f.label :begin_date
+      = f.date_select :begin_date, end_year: Time.now.year, class: 'form-control'
+  .row
+    .form-group
+      = f.label :description
+      = f.text_area :description, class: 'form-control'
   .actions
-    = f.submit 'Save'
+    = f.submit 'Добавить', class: 'btn btn-primary'

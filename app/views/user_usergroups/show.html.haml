@@ -1,18 +1,20 @@
-%p#notice= notice
-
 %p
-  %b Usergroup:
-  = @user_usergroup.usergroup
+  %b Группа:
+  = link_to @user_usergroup.usergroup.name,@user_usergroup.usergroup
 %p
-  %b User:
-  = @user_usergroup.user
+  %b Пользователь:
+  = link_to @user_usergroup.user.login,@user_usergroup.user
 %p
-  %b Begin date:
+  %b Дата вступления в группу:
   = @user_usergroup.begin_date
 %p
-  %b Description:
+  %b Описание:
   = @user_usergroup.description
 
-= link_to 'Edit', edit_user_usergroup_path(@user_usergroup)
-\|
-= link_to 'Back', user_usergroups_path
+.btn-block
+  =link_to edit_user_usergroup_path(@user_usergroup), class: 'btn btn-warning btn-sm' do
+    =fa_icon 'edit'
+    Редактировать
+  =link_to @user_usergroup.usergroup, class: 'btn btn-info' do
+    =fa_icon 'reply'
+    Назад
