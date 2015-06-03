@@ -24,7 +24,6 @@
 %br
 .row
   .btn-block
-    -#=link_to 'Добавить пользователей',{:action => :new, :controller => :user_usergroups,:usergroup_id => @usergroup.id}, class: 'btn btn-primary'
     =link_to edit_usergroup_path(@usergroup), class: 'btn btn-danger' do
       =fa_icon 'edit'
       Редактировать

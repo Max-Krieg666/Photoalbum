@@ -5,7 +5,7 @@ class UserUsergroup < ActiveRecord::Base
   validates :description, length: {maximum: 100}
   validates :user_id, presence: true
   validates :usergroup_id, presence: true
-  validates_uniqueness_of :user_id, scope: [:usergroup]
+  validates_uniqueness_of :user_id, scope: :usergroup_id
 
   before_validation :check_date, :check_user
 

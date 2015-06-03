@@ -1,0 +1,17 @@
+= form_for @usergroups_access do |f|
+  = error_messages_for(@usergroups_access)
+  = f.hidden_field :photo_id
+
+  .row
+    .form-group
+      = label_tag('usergroups_access[usergroup_id]', UsergroupsAccess.human_attribute_name(:usergroup_id))
+      = select_group('usergroups_access[usergroup_id]', @usergroups_access.usergroup_id)
+  .row
+    .form-group
+      = f.label :access
+      = f.check_box :access
+  .btn-group
+  .actions
+    = f.submit 'Сохранить', class: 'btn btn-primary'
+  %br
+  = link_to 'К настройкам доступа', {:action => :index, :controller => :usergroups_accesses,:photo_id => @usergroups_access.photo_id}, class: 'btn btn-info'

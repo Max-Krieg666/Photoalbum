@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150601164921) do
+ActiveRecord::Schema.define(version: 20150603120529) do
 
   create_table "albums", force: :cascade do |t|
     t.integer  "owner_id"
@@ -104,5 +104,25 @@ ActiveRecord::Schema.define(version: 20150601164921) do
   end
 
   add_index "usergroups", ["owner_id"], name: "index_usergroups_on_owner_id"
+
+  create_table "usergroups_accesses", force: :cascade do |t|
+    t.integer  "photo_id"
+    t.integer  "usergroup_id"
+    t.boolean  "access"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "usergroups_accesses", ["photo_id"], name: "index_usergroups_accesses_on_photo_id"
+  add_index "usergroups_accesses", ["usergroup_id"], name: "index_usergroups_accesses_on_usergroup_id"
+
+  create_table "usergroups_users", id: false, force: :cascade do |t|
+    t.integer "usergroup_id"
+    t.integer "user_id"
+  end
+
+  add_index "usergroups_users", ["user_id"], name: "index_usergroups_users_on_user_id"
+  add_index "usergroups_users", ["usergroup_id", "user_id"], name: "index_usergroups_users_on_usergroup_id_and_user_id", unique: true
+  add_index "usergroups_users", ["usergroup_id"], name: "index_usergroups_users_on_usergroup_id"
 
 end

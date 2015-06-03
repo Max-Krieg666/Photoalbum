@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :usergroups_accesses
+
   resources :comments
 
   resources :photos

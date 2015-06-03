@@ -1,116 +1,130 @@
-%p
-  %b Альбом:
-  = link_to "#{@photo.album.name}", @photo.album
-%p
-  %b
-  = image_tag(@photo.image.url)
-%p
-  -if @photo.title!=""
-    %b Название:
-    = @photo.title
+-x=UsergroupsAccess.where(photo_id: @photo.id).to_a
+-users_access_decline=[]
+-x.map do |elem|
+  -y=Usergroup.find(elem.usergroup_id).user_usergroups.to_a
+  -y.each do |el|
+    -users_access_decline<<Owner.find(el.user_id)
+-users_access_decline.each do |us|
+  -if @current_owner==us
+    %h1.text-danger Пользователь < #{@photo.album.owner} > ограничил доступ к этой фотографии для Вас!
+    =link_to "Назад к альбому", @photo.album, class: 'btn btn-info btn-lg'
   -else
-    %b.text-danger Без названия
-%p
-  %b Дата создания:
-  = @photo.creation_date
-%p
-  -if @photo.description!=""
-    %b Описание:
-    = @photo.description
-  -else
-    %b.text-danger Без описания
-%p
-  %b
-  -x=TableOfAssesment.where(owner_id:@current_owner.id,photo_id:@photo.id).to_a
-  -if x.size == 0
-    = form_for @photo do |f|
-      = f.label "Оцените фото:"
-      = f.select :rate, [1,2,3,4,5], class: "form-control"
+    %p
+      %b Альбом:
+      = link_to "#{@photo.album.name}", @photo.album
+    %p
+      %b
+      = image_tag(@photo.image.url)
+    %p
+      -if @photo.title!=""
+        %b Название:
+        = @photo.title
+      -else
+        %b.text-danger Без названия
+    %p
+      %b Дата создания:
+      = @photo.creation_date
+    %p
+      -if @photo.description!=""
+        %b Описание:
+        = @photo.description
+      -else
+        %b.text-danger Без описания
+    %p
+      %b
+      -x=TableOfAssesment.where(owner_id:@current_owner.id,photo_id:@photo.id).to_a
+      -if x.size == 0
+        = form_for @photo do |f|
+          = f.label "Оцените фото:"
+          = f.select :rate, [1,2,3,4,5], class: "form-control"
+          .actions
+            = f.submit 'Оценить', class: 'btn btn-info'
+      -else
+        .text-info Вы уже голосовали и поставили #{x[0].rate}
+    %p
+      %b Сумма оценок:
+      = @photo.sum_of_assessments
+    %p
+      %b Количество оценок:
+      = @photo.num_of_assessments
+    %p
+      %b Средний рейтинг:
+      = @photo.average_rating.round(2)
+    %p
+      %b Является ли обложкой альбома?
+      -if @photo.position==0
+        .li.text-danger Нет
+      -else
+        .li.text-danger Да
+    %br
+    -comments=Comment.where(photo_id: @photo.id).order(:created_at).to_a
+    -comments.each do |comment|
+      .row
+        .list-group
+          .col-md-5
+            .list-group-item.active
+              - own=Owner.where(id: comment.owner_id).to_a[0]
+              -if comment.reply && comment.reply!=0
+                - reply=Comment.where(id: comment.reply, photo_id: @photo.id).to_a[0]
+                - reply_owner=Owner.where(id: reply.owner_id).to_a[0]
+                .text-danger To -> \ #{reply_owner.login} : post#{reply.id} \
+              = "##{comment.id}"
+              .fa.fa-user.li
+                = own.login
+              -if comment.owner_id==@current_owner.id
+                .btn-group
+                  =link_to edit_comment_path(comment), class: 'btn btn-info' do
+                    =fa_icon 'edit'
+                  =link_to comment_path(comment),data:{confirm: "Действительно удалить?", :controller => :comments, method: :delete}, class: 'btn btn-danger' do
+                    =fa_icon 'remove'
+              -else
+                -if @current_owner.role>1
+                  .btn-group
+                    =link_to edit_comment_path(comment), class: 'btn btn-info' do
+                      =fa_icon 'edit'
+                    =link_to comment_path(comment), data:{confirm: "Действительно удалить?", :controller => :comments, method: :delete}, class: 'btn btn-danger' do
+                      =fa_icon 'remove'
+                %div{id: "new_comment_modal", class: "modal fade in modal-backdrop-static", style: "background-color: #888; border: none; opacity: 0.8;"}
+                  %div{class: "modal-header"}
+                    %button{class: "close", "data-dismiss"=>"modal"}
+                      .fa.fa-remove
+                    %h3 Новый комментарий
+                  %div{class: "modal-body"}
+                    - a=Comment.new
+                    = form_for a do |f|
+                      = f.hidden_field :photo_id, value: @photo.id
+                      = f.hidden_field :reply, value: comment.id
+                      = f.text_area :content, class: "form-control", size: "30x10"
+                      %br
+                      .actions
+                        = f.submit 'Отправить', class: 'btn btn-info'
+                  %div{class: "modal-footer"}
+                    %button{class: "btn btn-danger", "data-dismiss"=>"modal", href: {:controller => :photos, :action => :show, :id => @photo.id}}
+                      Закрыть
+                %a{class: 'btn btn-info', :href => '#new_comment_modal', "data-toggle" => 'modal'}
+                  Ответить
+              .fa.fa-heart.li.pull-right
+                = TableOfAssesment.where(photo_id: @photo.id, owner_id: own.id).to_a[0].rate
+            .list-group-item
+              = comment.content
+            %br
+    - a=Comment.new
+    %br
+    = form_for a do |f|
+      = f.hidden_field :photo_id, value: @photo.id
+      = error_messages_for(a)
+      = f.text_area :content, class: "form-control"
+      %br
       .actions
-        = f.submit 'Оценить', class: 'btn btn-info'
-  -else
-    .text-info Вы уже голосовали и поставили #{x[0].rate}
-%p
-  %b Сумма оценок:
-  = @photo.sum_of_assessments
-%p
-  %b Количество оценок:
-  = @photo.num_of_assessments
-%p
-  %b Средний рейтинг:
-  = @photo.average_rating.round(2)
-%p
-  %b Является ли обложкой альбома?
-  -if @photo.position==0
-    .li.text-danger Нет
-  -else
-    .li.text-danger Да
-%br
--comments=Comment.where(photo_id: @photo.id).order(:created_at).to_a
--comments.each do |comment|
-  .row
-    .list-group
-      .col-md-5
-        .list-group-item.active
-          - own=Owner.where(id: comment.owner_id).to_a[0]
-          -if comment.reply && comment.reply!=0
-            - reply=Comment.where(id: comment.reply, photo_id: @photo.id).to_a[0]
-            - reply_owner=Owner.where(id: reply.owner_id).to_a[0]
-            .text-danger To -> \ #{reply_owner.login} : post#{reply.id} \
-          = "##{comment.id}"
-          .fa.fa-user.li
-            = own.login
-          -if comment.owner_id==@current_owner.id
-            .btn-group
-              =link_to edit_comment_path(comment), class: 'btn btn-info' do
-                =fa_icon 'edit'
-              =link_to comment_path(comment),data:{confirm: "Действительно удалить?", :controller => :comments, method: :delete}, class: 'btn btn-danger' do
-                =fa_icon 'remove'
-          -else
-            -if @current_owner.role>1
-              .btn-group
-                =link_to edit_comment_path(comment), class: 'btn btn-info' do
-                  =fa_icon 'edit'
-                =link_to comment_path(comment), data:{confirm: "Действительно удалить?", :controller => :comments, method: :delete}, class: 'btn btn-danger' do
-                  =fa_icon 'remove'
-            %div{id: "new_comment_modal", class: "modal fade in modal-backdrop-static", style: "background-color: #888; border: none; opacity: 0.8;"}
-              %div{class: "modal-header"}
-                %button{class: "close", "data-dismiss"=>"modal"}
-                  .fa.fa-remove
-                %h3 Новый комментарий
-              %div{class: "modal-body"}
-                - a=Comment.new
-                = form_for a do |f|
-                  = f.hidden_field :photo_id, value: @photo.id
-                  = f.hidden_field :reply, value: comment.id
-                  = f.text_area :content, class: "form-control", size: "30x10"
-                  %br
-                  .actions
-                    = f.submit 'Отправить', class: 'btn btn-info'
-              %div{class: "modal-footer"}
-                %button{class: "btn btn-danger", "data-dismiss"=>"modal", href: {:controller => :photos, :action => :show, :id => @photo.id}}
-                  Закрыть
-            %a{class: 'btn btn-info', :href => '#new_comment_modal', "data-toggle" => 'modal'}
-              Ответить
-          .fa.fa-heart.li.pull-right
-            = TableOfAssesment.where(photo_id: @photo.id, owner_id: own.id).to_a[0].rate
-        .list-group-item
-          = comment.content
-        %br
-- a=Comment.new
-%br
-= form_for a do |f|
-  = f.hidden_field :photo_id, value: @photo.id
-  = error_messages_for(a)
-  = f.text_area :content, class: "form-control"
-  %br
-  .actions
-    = f.submit 'Комментировать', class: 'btn btn-warning'
-%br
--if @current_owner==@photo.album.owner
-  =link_to edit_photo_path(@photo), class: 'btn btn-danger' do
-    =fa_icon "edit"
-    Редактировать
-=link_to album_path(@photo.album), class: 'btn btn-info' do
-  =fa_icon 'reply'
-  Назад
+        = f.submit 'Комментировать', class: 'btn btn-warning'
+    %br
+    -if @current_owner==@photo.album.owner
+      .btn-group
+        =link_to edit_photo_path(@photo), class: 'btn btn-danger' do
+          =fa_icon 'edit'
+          Редактировать
+        =link_to 'Настроить доступ к фотографии',{:action => :new, :controller => :usergroups_accesses,:photo_id => @photo.id}, class: 'btn btn-primary'
+        =link_to 'Посмотреть настройки доступа к фотографии',{:action => :index, :controller => :usergroups_accesses,:photo_id => @photo.id}, class: 'btn btn-default', style: 'background: #FF0'
+    =link_to album_path(@photo.album), class: 'btn btn-info' do
+      =fa_icon 'reply'
+      Назад

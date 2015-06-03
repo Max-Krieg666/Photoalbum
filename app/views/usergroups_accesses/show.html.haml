@@ -1,0 +1,22 @@
+%p
+  %b
+  =link_to @usergroups_access.photo, class: 'btn btn-primary btn-lg' do
+    =fa_icon 'image'
+    =fa_icon 'reply'
+    К фотографии
+%p
+  %b Группа:
+  =link_to @usergroups_access.usergroup.name, @usergroups_access.usergroup
+%p
+  %b Статус:
+  -if @usergroups_access.access
+    .text-success Доступ разрешён
+  -else
+    .text-danger Доступ запрещён
+.btn-group
+  =link_to edit_usergroups_access_path(@usergroups_access), class: 'btn btn-danger' do
+    =fa_icon 'edit'
+    Редактировать
+  =link_to usergroups_accesses_path, class: 'btn btn-info' do
+    =fa_icon 'reply'
+    Назад

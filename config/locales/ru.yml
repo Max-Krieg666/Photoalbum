@@ -18,6 +18,10 @@ ru:
         description: Описание
         user_id: Пользователь
         usergroup_id: Группа
+      usergroups_access:
+        usergroup_id: Группа
+        access: Разрешить доступ
+        photo_id: Фотография
       album:
         name: Название
         creation_date: Дата создания

@@ -1,6 +1,6 @@
 class Owner < ActiveRecord::Base
   has_many :user_usergroups
-  has_many :usergroups
+  has_and_belongs_to_many :usergroups, join_table: 'usergroups_users'
   has_many :albums
 
   validates :avatar,

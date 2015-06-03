@@ -1,0 +1,34 @@
+%h1 Настройки доступа для фотографии
+
+%table.table.table-bordered.table-hover
+  %thead
+    %tr
+      %th Группа
+      %th Доступ
+      %th
+      %th
+      %th
+
+  %tbody
+    - @usergroups_accesses.each do |usergroups_access|
+      %tr
+        %td=link_to usergroups_access.usergroup.name, usergroups_access.usergroup
+        -if usergroups_access.access
+          %td.text-success Разрешён
+        -else
+          %td.text-danger Запрещён
+        %td
+          = link_to usergroups_access, class: "btn btn-link" do
+            =fa_icon "arrow-circle-right"
+        %td
+          = link_to edit_usergroups_access_path(usergroups_access), photo_id: @old_photo.id, class: "btn btn-link" do
+            =fa_icon "edit"
+        %td
+          = link_to usergroups_access_path(usergroups_access), {method: :delete, photo_id: @old_photo.id}, data: { :confirm => 'Вы уверены?' }, class: "btn btn-link" do
+            =fa_icon "remove"
+%br
+.btn-group
+  =link_to 'Настроить доступ к фотографии', {:action => :new, :controller => :usergroups_accesses,:photo_id => @old_photo.id}, class: 'btn btn-primary'
+  =link_to @old_photo, class: 'btn btn-info' do
+    =fa_icon 'reply'
+    Назад
