@@ -7,11 +7,15 @@ class UserUsergroup < ActiveRecord::Base
   validates :usergroup_id, presence: true
   validates_uniqueness_of :user_id, scope: [:usergroup]
 
-  before_validation :check_date
+  before_validation :check_date, :check_user
 
   def check_date
     if !self.begin_date.blank?
       self.errors[:begin_date]<<" не существует!" if self.begin_date > Time.now
     end
+  end
+
+  def check_user
+    self.errors[:user_id]<<": нельзя добавить самого себя!" if self.user_id == self.usergroup.owner.id
   end
 end

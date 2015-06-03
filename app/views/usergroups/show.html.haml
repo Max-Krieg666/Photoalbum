@@ -8,16 +8,19 @@
         -if @usergroup.user_usergroups && @usergroup.user_usergroups.size>0
           - UserUsergroup.where(usergroup_id: @usergroup.id).each do |usr|
             .list-group-item
-              =Owner.find(usr.user_id).login
-          .list-group-item
-            .fa.fa-user-plus.li
-              =link_to 'Добавить пользователя',{:action => :new, :controller => :user_usergroups,:usergroup_id => @usergroup.id}, class: 'btn btn-default btn-xs'
+              -user=Owner.find(usr.user_id)
+              =link_to user.login,user
+              =link_to usr,:method => :delete, :controller=> :user_usergroups, data:{confirm: "Вы уверены?"}, class: 'btn btn-danger btn-xs' do
+                =fa_icon 'remove'
         -else
           .list-group-item
             .text-danger Группа пуста
       -else
         .list-group-item
           .text-danger Группа пуста
+      .list-group-item
+        .fa.fa-user-plus.li
+          =link_to 'Добавить пользователя',{:action => :new, :controller => :user_usergroups,:usergroup_id => @usergroup.id}, class: 'btn btn-default btn-xs'
 %br
 .row
   .btn-block

@@ -8,8 +8,11 @@
   %b Дата вступления в группу:
   = @user_usergroup.begin_date
 %p
-  %b Описание:
-  = @user_usergroup.description
+  -if !@user_usergroup.description.blank?
+    %b Описание:
+    = @user_usergroup.description
+  -else
+    %b.text-danger Описание не добавлено!
 
 .btn-block
   =link_to edit_user_usergroup_path(@user_usergroup), class: 'btn btn-warning btn-sm' do
