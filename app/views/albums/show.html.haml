@@ -3,7 +3,7 @@
   = @album.name
 %p
   %b Дата создания:
-  = @album.creation_date
+  =  l @album.creation_date
 -if @album.photos.size>0
   -if @album.photos.where(id: @album.cover).load.map{|x| x}[0]
     -photo=@album.photos.where(id: @album.cover).load.map{|x| x}[0]

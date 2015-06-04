@@ -1,15 +1,28 @@
 class UsergroupsController < ApplicationController
   before_action :set_usergroup, only: [:show, :edit, :update, :destroy]
+  before_action :check_owner
 
   # GET /usergroups
   # GET /usergroups.json
   def index
-    @usergroups = Usergroup.all
+    @usergroups=Usergroup.includes(:user_usergroups).where(owner_id:@current_owner.id).to_a
+    @count=[]
+    @usergroups.each do |usgr|
+      us_gr=UserUsergroup.includes(:usergroup).where(usergroup_id:usgr.id).to_a
+      us_gr.each do |u|
+        @count=Owner.where(id:u.user_id).to_a
+      end
+    end
   end
 
   # GET /usergroups/1
   # GET /usergroups/1.json
   def show
+    @count=[]
+    us_gr=UserUsergroup.includes(:usergroup).where(usergroup_id:@usergroup.id).to_a
+    us_gr.each do |u|
+      @count=Owner.where(id:u.user_id).to_a
+    end
   end
 
   # GET /usergroups/new

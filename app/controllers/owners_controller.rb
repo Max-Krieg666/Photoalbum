@@ -1,6 +1,6 @@
 class OwnersController < ApplicationController
   before_action :set_owner, only: [:show, :edit, :update, :destroy]
-  before_action :admin_permission, except: [:new, :create, :index, :show]
+  before_action :choose, except: [:new, :create, :index]
 
   # GET /owners
   # GET /owners.json
@@ -27,6 +27,8 @@ class OwnersController < ApplicationController
   def create
     @owner = Owner.new(owner_params)
     if @owner.save
+      @owner.authenticate(params[:password])
+      session[:owner_id]=@owner.id
       redirect_to @owner, notice: 'Вы успешно зарегестрированы.'
     else
       render :new
@@ -62,6 +64,13 @@ class OwnersController < ApplicationController
     def set_owner
       @owner = Owner.find(params[:id])
     end
+    def choose
+      if @current_owner.id!=@owner.id && !@current_owner.administrator?
+        flash[:danger]='Доступ запрещён!'
+        redirect_to albums_path
+      end
+    end
+
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def owner_params

@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
       render plain: "404 Not Found", status: 404
     end
     def set_current_owner
+
       if session[:owner_id].present?
         @current_owner=Owner.find(session[:owner_id])
       end
@@ -22,10 +23,11 @@ class ApplicationController < ActionController::Base
         redirect_to login_path
       end
     end
-    def check_authentication
-      unless @current_owner
-        flash[:danger]="Доступ без авторизации запрещен"
-        redirect_to login_path
+    def check_owner
+      if @current_owner.blank?
+
+        flash[:danger]="Необходимо войти в систему для просмотра данной страницы!"
+        redirect_to root_path
       end
     end
 

@@ -1,7 +1,7 @@
 class PhotosController < ApplicationController
   before_action :set_photo, only: [:show, :edit, :update, :destroy]
   before_action :set_album, only: :new
-
+  before_action :check_owner
   # GET /photos
   # GET /photos.json
   def index
@@ -11,6 +11,24 @@ class PhotosController < ApplicationController
   # GET /photos/1
   # GET /photos/1.json
   def show
+    x=UsergroupsAccess.includes(:photo).where(photo_id: @photo.id).to_a
+    users_access_decline=[]
+    if x.size!=0
+      x.each do |elem|
+        y=Usergroup.where(id: elem.usergroup_id).to_a[0].user_usergroups.to_a
+        y.each do |el|
+          users_access_decline<<Owner.find(el.user_id)
+        end
+      end
+    end
+    if users_access_decline.size!=0
+      users_access_decline.each do |us|
+        if @current_owner==us
+          flash[:danger]="Пользователь < #{@photo.album.owner} > ограничил доступ к этой фотографии для Вас!"
+          redirect_to @photo.album
+        end
+      end
+    end
   end
 
   # GET /photos/new

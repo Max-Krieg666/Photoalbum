@@ -1,6 +1,6 @@
 = form_for @comment do |f|
+  =f.hidden_field :photo_id
   = error_messages_for(@comment)
-
   .row
     .form-group
       = f.label :content

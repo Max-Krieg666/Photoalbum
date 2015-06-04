@@ -1,6 +1,7 @@
 class UsergroupsAccessesController < ApplicationController
   before_action :set_usergroups_access, only: [:show, :edit, :update, :destroy]
   before_action :set_photo, only: [:new, :index]
+  before_action :check_owner
 
   # GET /usergroups_accesses
   # GET /usergroups_accesses.json

@@ -1,10 +1,10 @@
 -if @current_owner.blank?
   -flash[:danger]='Необходима авторизация'
 -else
-  -if @current_owner.usergroups.size>0
+  -if @usergroups.size>0
     %h1 Мои группы
     .row
-      - @usergroups.where(owner_id: @current_owner.id).each do |usgr|
+      - @usergroups.each do |usgr|
         .list-group
           .col-md-5
             .list-group-item.active
@@ -17,17 +17,12 @@
                   =fa_icon 'edit'
                 =link_to usgr, :method => :delete, :data => { :confirm => 'Вы уверены?' }, class: 'btn btn-danger btn-sm' do
                   =fa_icon 'remove'
-            -if UserUsergroup.all.to_a.size>0
-              -if usgr.user_usergroups && usgr.user_usergroups.size>0
-                - UserUsergroup.where(usergroup_id: usgr.id).each do |usr|
-                  .list-group-item
-                    -user=Owner.find(usr.user_id)
-                    =link_to user.login,user
-                    =link_to usr,:method => :delete, :controller=> :user_usergroups, data:{confirm: "Вы уверены?"}, class: 'btn btn-danger btn-xs' do
-                      =fa_icon 'remove'
-              -else
+            -if @count.size>0
+              -@count.each do |user|
                 .list-group-item
-                  .text-danger Группа пуста
+                  =link_to user.login,user
+                  =link_to user,:method => :delete, :controller=> :user_usergroups, data:{confirm: "Вы уверены?"}, class: 'btn btn-danger btn-xs' do
+                    =fa_icon 'remove'
             -else
               .list-group-item
                 .text-danger Группа пуста

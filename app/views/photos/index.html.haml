@@ -1,31 +1,30 @@
-%h1 Фотографии
+-if @current_owner.role<1
+  %h1 Фотографии
 
-%table
-  %thead
-    %tr
-      %th Название
-      %th Дата создания
-      %th Описание
-      %th Количество оценок
-      %th Сумма оценок
-      %th Средний рейтинг
-      %th
-      %th
-      %th
-
-  %tbody
-    - @photos.each do |photo|
+  %table.table.table-bordered.table-hover
+    %thead
       %tr
-        %td= photo.title
-        %td= photo.creation_date
-        %td= photo.description
-        %td= photo.num_of_assessments
-        %td= photo.sum_of_assessments
-        %td= photo.average_rating
-        %td= link_to 'Показать', photo
-        %td= link_to 'Редактировать', edit_photo_path(photo)
-        %td= link_to 'Удалить', photo, :method => :delete, :data => { :confirm => 'Вы уверены?' }
+        %th Название
+        %th Дата создания
+        %th Описание
+        %th Количество оценок
+        %th Сумма оценок
+        %th Средний рейтинг
+        %th
+        %th
+        %th
 
-%br
-
-= link_to 'Новая фотография', new_photo_path
+    %tbody
+      - @photos.each do |photo|
+        %tr
+          %td= photo.title
+          %td= photo.creation_date
+          %td= photo.description
+          %td= photo.num_of_assessments
+          %td= photo.sum_of_assessments
+          %td= photo.average_rating
+          %td= link_to 'Показать', photo
+          %td= link_to 'Редактировать', edit_photo_path(photo)
+          %td= link_to 'Удалить', photo, :method => :delete, :data => { :confirm => 'Вы уверены?' }
+-else
+  %h1.text-danger Доступ запрещён!

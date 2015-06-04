@@ -1,7 +1,8 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: [:show, :edit, :update, :destroy]
-  before_action :set_photo, only: :new
-
+  before_action :set_photo, only: [:new, :create]
+  before_action :check_owner
+  @@count=0
   # GET /comments
   # GET /comments.json
   def index
@@ -18,6 +19,7 @@ class CommentsController < ApplicationController
     @comment = @photo.comments.build
     @comment.photo=@photo
     @comment.photo_id=@photo.id
+    @@count=@photo.id
   end
 
   # GET /comments/1/edit
@@ -27,14 +29,18 @@ class CommentsController < ApplicationController
   # POST /comments
   # POST /comments.json
   def create
+    @@count=@photo.id
     @comment = Comment.new(comment_params)
     @comment.owner_id=@current_owner.id
+    @comment.photo_id=@@count
     respond_to do |format|
       if @comment.save
         format.html { redirect_to @comment.photo, notice: 'Комментарий успешно добавлен.' }
         format.json { render :show, status: :created, location: @comment }
       else
-        format.html { render :new }
+        # @comment.photo_id=@@count
+        # @photo=Photo.find(@@count)
+        format.html { render :new, @comment.photo_id=>@@count}
         format.json { render json: @comment.errors, status: :unprocessable_entity }
       end
     end
@@ -71,7 +77,7 @@ class CommentsController < ApplicationController
       @comment = Comment.find(params[:id])
     end
     def set_photo
-      @photo = Photo.find(params[:album_id])
+      @photo = Photo.find(params[:comment][:photo_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

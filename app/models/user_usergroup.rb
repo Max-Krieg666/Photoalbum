@@ -16,6 +16,6 @@ class UserUsergroup < ActiveRecord::Base
   end
 
   def check_user
-    self.errors[:user_id]<<": нельзя добавить самого себя!" if self.user_id == self.usergroup.owner.id
+    self.errors[:user_id]<<": нельзя добавить самого себя!" if self.user_id == self.usergroup.owner_id
   end
 end

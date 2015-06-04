@@ -10,5 +10,6 @@ class Photo < ActiveRecord::Base
             attachment_file_name: {:matches => [/png\Z/, /jpe?g\Z/]}
   validates :album_id, presence: true
   validates :title, length: {maximum: 40}
+  validates :rate, inclusion: {in: 1..5}
   validates :description, length: {maximum: 200}
 end
