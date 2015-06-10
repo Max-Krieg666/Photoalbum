@@ -11,10 +11,12 @@ class PhotosController < ApplicationController
   # GET /photos/1
   # GET /photos/1.json
   def show
-    x=UsergroupsAccess.includes(:photo).where(photo_id: @photo.id).to_a
+    @x=UsergroupsAccess.includes(:photo).where(photo_id: @photo.id).to_a
+    @xxx=TableOfAssesment.where(owner_id:@current_owner.id,photo_id:@photo.id).to_a
+    @comments=Comment.where(photo_id: @photo.id).order(:created_at).to_a
     users_access_decline=[]
-    if x.size!=0
-      x.each do |elem|
+    if @x.size!=0
+      @x.each do |elem|
         y=Usergroup.where(id: elem.usergroup_id).to_a[0].user_usergroups.to_a
         y.each do |el|
           users_access_decline<<Owner.find(el.user_id)

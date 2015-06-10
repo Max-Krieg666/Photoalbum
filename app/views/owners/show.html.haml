@@ -53,7 +53,7 @@
                 Дата создания
             %th
         %tbody
-          - Album.where(owner_id: @owner.id).load.map{|x| x}.each do |album|
+          - @albums.each do |album|
             %tr
               %td= album.name
               %td= album.creation_date

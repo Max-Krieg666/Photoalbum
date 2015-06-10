@@ -11,6 +11,7 @@ class OwnersController < ApplicationController
   # GET /owners/1
   # GET /owners/1.json
   def show
+    @albums=Album.where(owner_id: @owner.id).load.map{|x| x}
   end
 
   # GET /owners/new
