@@ -47,8 +47,8 @@
       <file leaf-file-name="README.rdoc" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/README.rdoc">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.9025271" vertical-offset="166" max-vertical-offset="792">
-              <caret line="37" column="2" selection-start-line="37" selection-start-column="2" selection-end-line="37" selection-end-column="2" />
+            <state vertical-scroll-proportion="0.28519857" vertical-offset="166" max-vertical-offset="792">
+              <caret line="18" column="2" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
               <folding />
             </state>
           </provider>
@@ -472,10 +472,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="25" width="1280" height="974" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30607477" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30607477" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32943925" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -887,8 +887,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/README.rdoc">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9025271" vertical-offset="166" max-vertical-offset="792">
-          <caret line="37" column="2" selection-start-line="37" selection-start-column="2" selection-end-line="37" selection-end-column="2" />
+        <state vertical-scroll-proportion="0.28519857" vertical-offset="166" max-vertical-offset="792">
+          <caret line="18" column="2" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
           <folding />
         </state>
       </provider>
