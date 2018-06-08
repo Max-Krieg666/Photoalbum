@@ -11,7 +11,7 @@ class OwnersController < ApplicationController
   # GET /owners/1
   # GET /owners/1.json
   def show
-    @albums=Album.where(owner_id: @owner.id).load.map{|x| x}
+    @albums = Album.where(owner_id: @owner.id)
   end
 
   # GET /owners/new
@@ -29,7 +29,7 @@ class OwnersController < ApplicationController
     @owner = Owner.new(owner_params)
     if @owner.save
       @owner.authenticate(params[:password])
-      session[:owner_id]=@owner.id
+      session[:owner_id] = @owner.id
       redirect_to @owner, notice: 'Вы успешно зарегестрированы.'
     else
       render :new
@@ -61,20 +61,24 @@ class OwnersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_owner
-      @owner = Owner.find(params[:id])
+  # Use callbacks to share common setup or constraints between actions.
+  def set_owner
+    @owner = Owner.find(params[:id])
+  end
+  def choose
+    if @current_owner.id != @owner.id && !@current_owner.administrator?
+      flash[:danger] = 'Доступ запрещён!'
+      redirect_to albums_path
     end
-    def choose
-      if @current_owner.id!=@owner.id && !@current_owner.administrator?
-        flash[:danger]='Доступ запрещён!'
-        redirect_to albums_path
-      end
-    end
+  end
 
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def owner_params
-      params.require(:owner).permit(:login, :password, :avatar, :password_confirmation, :residence, :sex, :birthday, :mail)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def owner_params
+    params.require(:owner).permit(
+      :login, :password, :avatar,
+      :password_confirmation,
+      :residence, :sex, :birthday, :mail
+    )
+  end
 end

@@ -7,7 +7,7 @@ class UsergroupsAccessesController < ApplicationController
   # GET /usergroups_accesses.json
   def index
     @usergroups_accesses = UsergroupsAccess.where(photo_id: @photo.id)
-    @old_photo=@photo
+    @old_photo = @photo
   end
 
   # GET /usergroups_accesses/1
@@ -32,7 +32,7 @@ class UsergroupsAccessesController < ApplicationController
 
     respond_to do |format|
       if @usergroups_access.save
-        format.html { redirect_to Photo.find(@usergroups_access.photo_id), notice: 'Настройки доступа установлены.' }
+        format.html { redirect_to @usergroups_access.photo, notice: 'Настройки доступа установлены.' }
         format.json { render :show, status: :created, location: @usergroups_access }
       else
         format.html { render :new }
@@ -58,7 +58,7 @@ class UsergroupsAccessesController < ApplicationController
   # DELETE /usergroups_accesses/1
   # DELETE /usergroups_accesses/1.json
   def destroy
-    ph=@usergroups_access.photo_id
+    ph = @usergroups_access.photo_id
     @usergroups_access.destroy
     respond_to do |format|
       format.html { redirect_to action: 'index', photo_id: ph, notice: 'Настройки доступа удалены.' }
@@ -67,17 +67,17 @@ class UsergroupsAccessesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_usergroups_access
-      @usergroups_access = UsergroupsAccess.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_usergroups_access
+    @usergroups_access = UsergroupsAccess.find(params[:id])
+  end
 
-    def set_photo
-      @photo = Photo.find(params[:photo_id])
-    end
+  def set_photo
+    @photo = Photo.find(params[:photo_id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def usergroups_access_params
-      params.require(:usergroups_access).permit(:photo_id, :usergroup_id, :access)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def usergroups_access_params
+    params.require(:usergroups_access).permit(:photo_id, :usergroup_id, :access)
+  end
 end

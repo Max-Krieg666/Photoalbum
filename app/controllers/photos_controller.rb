@@ -11,22 +11,21 @@ class PhotosController < ApplicationController
   # GET /photos/1
   # GET /photos/1.json
   def show
-    @x=UsergroupsAccess.includes(:photo).where(photo_id: @photo.id).to_a
-    @xxx=TableOfAssesment.where(owner_id:@current_owner.id,photo_id:@photo.id).to_a
-    @comments=Comment.where(photo_id: @photo.id).order(:created_at).to_a
-    users_access_decline=[]
-    if @x.size!=0
+    @x = UsergroupsAccess.includes(:photo).where(photo_id: @photo.id).to_a
+    @xxx = TableOfAssesment.where(owner_id:@current_owner.id,photo_id:@photo.id).to_a
+    @comments = Comment.where(photo_id: @photo.id).order(:created_at).to_a
+    users_access_decline = []
+    if @x.size != 0
       @x.each do |elem|
-        y=Usergroup.where(id: elem.usergroup_id).to_a[0].user_usergroups.to_a
-        y.each do |el|
-          users_access_decline<<Owner.find(el.user_id)
+        Usergroup.where(id: elem.usergroup_id).to_a.first.user_usergroups.each do |el|
+          users_access_decline << Owner.find_by_id el.user_id
         end
       end
     end
-    if users_access_decline.size!=0
+    if users_access_decline.size != 0
       users_access_decline.each do |us|
-        if @current_owner==us
-          flash[:danger]="Пользователь < #{@photo.album.owner} > ограничил доступ к этой фотографии для Вас!"
+        if @current_owner == us
+          flash[:danger] = "Пользователь < #{@photo.album.owner} > ограничил доступ к этой фотографии для Вас!"
           redirect_to @photo.album
         end
       end
@@ -36,7 +35,7 @@ class PhotosController < ApplicationController
   # GET /photos/new
   def new
     @photo = @album.photos.build
-    @photo.album=@album
+    @photo.album = @album
   end
 
   # GET /photos/1/edit
@@ -50,7 +49,7 @@ class PhotosController < ApplicationController
     @first = 0
     @album = Album.find(@photo.album_id)
     if params[:photo][:image].blank?
-      flash[:danger]="При сохранении произошла ошибка! Необходимо загрузить хотя бы одну фотографию!"
+      flash[:danger] = "При сохранении произошла ошибка! Необходимо загрузить хотя бы одну фотографию!"
       render :new
     else
       params[:photo][:image].each do |upload|

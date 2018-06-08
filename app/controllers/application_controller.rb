@@ -7,41 +7,42 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   private
-    def record_not_found
-      render plain: "404 Not Found", status: 404
-    end
-    def set_current_owner
 
-      if session[:owner_id].present?
-        @current_owner=Owner.find(session[:owner_id])
-      end
-    end
+  def record_not_found
+    render plain: '404 Not Found', status: 404
+  end
 
-    def require_login
-      if @current_owner
-        flash[:danger]='Требуется авторизация'
-        redirect_to login_path
-      end
+  def set_current_owner
+    if session[:owner_id].present?
+      @current_owner = Owner.find(session[:owner_id])
     end
-    def check_owner
-      if @current_owner.blank?
+  end
 
-        flash[:danger]="Необходимо войти в систему для просмотра данной страницы!"
-        redirect_to root_path
-      end
+  def require_login
+    if @current_owner
+      flash[:danger] = 'Требуется авторизация'
+      redirect_to login_path
     end
+  end
 
-    def manager_permission
-      unless @current_owner.try(:manager?)
-        flash[:danger]='Недостаточно прав'
-        redirect_to login_path
-      end
+  def check_owner
+    if @current_owner.blank?
+      flash[:danger] = "Необходимо войти в систему для просмотра данной страницы!"
+      redirect_to root_path
     end
+  end
 
-    def admin_permission
-      unless @current_owner.try(:administrator?)
-        flash[:danger]='Недостаточно прав'
-        redirect_to login_path
-      end
+  def manager_permission
+    unless @current_owner.try(:manager?)
+      flash[:danger] = 'Недостаточно прав'
+      redirect_to login_path
     end
+  end
+
+  def admin_permission
+    unless @current_owner.try(:administrator?)
+      flash[:danger] = 'Недостаточно прав'
+      redirect_to login_path
+    end
+  end
 end

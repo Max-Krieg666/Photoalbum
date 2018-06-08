@@ -20,8 +20,6 @@ gem 'rails-i18n'
 gem 'russian'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
@@ -29,18 +27,10 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # for pictures load
 gem 'paperclip'
+gem 'rails_watcher', path: '../rails_watcher'
 
 # Use ActiveModel has_secure_password
 gem 'bcrypt'
-
-# Use Unicorn as the app server
-# gem 'unicorn'
-
-# Система оценивания
-# gem 'acts-as-rated'
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
 
 gem 'haml-rails'
 gem 'bootstrap-sass'
@@ -53,7 +43,4 @@ group :development, :test do
 
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
-
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
 end

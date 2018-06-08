@@ -5,12 +5,12 @@ class UsergroupsController < ApplicationController
   # GET /usergroups
   # GET /usergroups.json
   def index
-    @usergroups=Usergroup.includes(:user_usergroups).where(owner_id:@current_owner.id).to_a
-    @count=[]
+    @usergroups = Usergroup.includes(:user_usergroups).where(owner_id:@current_owner.id).to_a
+    @count = []
     @usergroups.each do |usgr|
-      us_gr=UserUsergroup.includes(:usergroup).where(usergroup_id:usgr.id).to_a
+      us_gr = UserUsergroup.includes(:usergroup).where(usergroup_id:usgr.id).to_a
       us_gr.each do |u|
-        @count=Owner.where(id:u.user_id).to_a
+        @count = Owner.where(id: u.user_id).to_a
       end
     end
   end
@@ -18,10 +18,10 @@ class UsergroupsController < ApplicationController
   # GET /usergroups/1
   # GET /usergroups/1.json
   def show
-    @count=[]
-    us_gr=UserUsergroup.includes(:usergroup).where(usergroup_id:@usergroup.id).to_a
+    @count = []
+    us_gr = UserUsergroup.includes(:usergroup).where(usergroup_id:@usergroup.id).to_a
     us_gr.each do |u|
-      @count=Owner.where(id:u.user_id).to_a
+      @count = Owner.where(id:u.user_id).to_a
     end
   end
 

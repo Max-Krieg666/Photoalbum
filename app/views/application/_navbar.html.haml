@@ -1,21 +1,21 @@
 %nav.navbar.navbar-inverse
   .container
     .navbar-header
-      =link_to ?#, class: "navbar-toggle collapsed", data: {toggle: "collapse", target: "#menu"} do
+      =link_to ?#, class: "navbar-toggle collapsed", data: { toggle: "collapse", target: "#menu" } do
         =fa_icon 'bars'
-      =link_to 'Моя страница', @current_owner, class: 'navbar-brand'
+      =link_to 'Моя страница', main_app.owner_path(@current_owner), class: 'navbar-brand'
     #menu.collapse.navbar-collapse
       %ul.nav.navbar-nav
-        %li= link_to "Мои фотоальбомы", albums_path
+        %li= link_to "Мои фотоальбомы", main_app.albums_path
         -if @current_owner
-          %li=link_to "Мои группы", usergroups_path
-          %li=link_to "Все пользователи", owners_path
+          %li=link_to "Мои группы", main_app.usergroups_path
+          %li=link_to "Все пользователи", main_app.owners_path
       %ul.nav.navbar-nav.navbar-right
         -if @current_owner.blank?
-          %li=link_to "Зарегистрироваться", new_owner_path
-          %li=link_to "Войти", login_path
+          %li=link_to "Зарегистрироваться", main_app.new_owner_path
+          %li=link_to "Войти", main_app.login_path
         -else
           %li
             %span.navbar-text=@current_owner.login
             %span.navbar-text=@current_owner.mail
-            =link_to "Выйти", logout_path, data: {method: :patch}
+            =link_to "Выйти", main_app.logout_path, data: { method: :patch }

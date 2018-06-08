@@ -66,15 +66,15 @@ class UserUsergroupsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user_usergroup
-      @user_usergroup = UserUsergroup.find(params[:id])
-    end
-    def set_usergroup
-      @usergroup = Usergroup.find(params[:usergroup_id])
-    end
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def user_usergroup_params
-      params.require(:user_usergroup).permit(:usergroup_id, :user_id, :begin_date, :description)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user_usergroup
+    @user_usergroup = UserUsergroup.find(params[:id])
+  end
+  def set_usergroup
+    @usergroup = Usergroup.find(params[:usergroup_id])
+  end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def user_usergroup_params
+    params.require(:user_usergroup).permit(:usergroup_id, :user_id, :begin_date, :description)
+  end
 end
