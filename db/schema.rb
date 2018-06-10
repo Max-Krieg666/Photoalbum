@@ -128,7 +128,7 @@ ActiveRecord::Schema.define(version: 20180605221552) do
   create_table "watcher_events", force: :cascade do |t|
     t.string   "title",                           null: false
     t.string   "status",      default: "Success"
-    t.string   "type"
+    t.string   "kind"
     t.text     "description"
     t.text     "data"
     t.string   "user_login"

@@ -3,7 +3,7 @@ class CreateWatcherEvents < ActiveRecord::Migration
     create_table :watcher_events do |t|
       t.string :title,  null: false
       t.string :status, default: 'Success'
-      t.string :type
+      t.string :kind
       t.text   :description
       t.text   :data
       t.string :user_login

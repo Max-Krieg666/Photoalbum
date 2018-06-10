@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
   post 'login' => "sessions#create"
 
-  patch 'logout' => "sessions#destroy", as: :logout
+  get 'logout' => "sessions#destroy", as: :logout
   root 'sessions#new'
+  mount RailsWatcher::Engine => "/rails_watcher"
 end
