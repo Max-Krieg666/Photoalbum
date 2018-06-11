@@ -1,9 +1,8 @@
 PATH
   remote: ../rails_watcher
   specs:
-    rails_watcher (0.1.9)
+    rails_watcher (0.1.11)
       bootstrap-sass
-      kaminari
       rails (~> 4.2)
       rails-i18n (~> 4.0)
 

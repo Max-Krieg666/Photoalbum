@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
       RailsWatcher::EventCreator.start(
         {
           title: 'Пользователь зашёл в систему.',
-          type: 'manual',
+          kind: 'manual',
           user_login: @owner.login
         }
       )
@@ -18,8 +18,8 @@ class SessionsController < ApplicationController
       RailsWatcher::EventCreator.start(
         {
           title: 'Попытка входа в систему.',
-          type: 'manual',
-          status: 'Error',
+          kind: 'manual',
+          status: 'error',
           data: params
         }
       )
@@ -31,8 +31,8 @@ class SessionsController < ApplicationController
   def destroy
     RailsWatcher::EventCreator.start(
       {
-        title: 'Пользователь вышел из систему.',
-        type: 'manual',
+        title: 'Пользователь вышел из системы.',
+        kind: 'manual',
         user_login: @current_owner.login
       }
     )
