@@ -27,7 +27,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # for pictures load
 gem 'paperclip'
-gem 'rails_watcher', path: '../rails_watcher'
+gem 'rails_watcher', git: 'https://github.com/Max-Krieg666/rails_watcher.git'
 
 # Use ActiveModel has_secure_password
 gem 'bcrypt'

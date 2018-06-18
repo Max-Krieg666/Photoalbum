@@ -1,7 +1,8 @@
-PATH
-  remote: ../rails_watcher
+GIT
+  remote: https://github.com/Max-Krieg666/rails_watcher.git
+  revision: aaab33f05d6e53a1411be8a567d9df1dbf4ec017
   specs:
-    rails_watcher (0.1.11)
+    rails_watcher (0.1.12)
       bootstrap-sass
       rails (~> 4.2)
       rails-i18n (~> 4.0)
@@ -45,7 +46,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     arel (6.0.4)
-    autoprefixer-rails (8.6.2)
+    autoprefixer-rails (8.6.3)
       execjs
     bcrypt (3.1.12)
     binding_of_caller (0.8.0)
@@ -128,7 +129,7 @@ GEM
     mini_portile2 (2.3.0)
     minitest (5.11.3)
     multi_json (1.13.1)
-    nokogiri (1.8.2)
+    nokogiri (1.8.3)
       mini_portile2 (~> 2.3.0)
     paperclip (6.0.0)
       activemodel (>= 4.2.0)
